@@ -45,6 +45,22 @@ npm run dev -- --open
 
 The Svelte app runs on [http://localhost:5000](http://localhost:5000).
 
+## Iframe host
+
+This application is embedded by the root-level [iframe host](../index.html) and
+[alternate host](../index-webEl.html) at
+`http://localhost:5000/`. Start its frontend and mock backend together before
+opening the host:
+
+```sh
+npm run start-all-sv
+```
+
+The host also requires the Angular app on port 4200 and the React app on port
+3000. For a production deployment, configure the web server serving this app
+to allow the host origin to frame it; do not send `X-Frame-Options: DENY` or a
+`Content-Security-Policy` `frame-ancestors` directive that excludes the host.
+
 ### Mock backend
 
 Run the goals mock backend:
@@ -65,7 +81,7 @@ It runs on [http://localhost:7001](http://localhost:7001), loads default data fr
 ### Run frontend + backend together
 
 ```sh
-npm run start-all
+npm run start-all-sv
 ```
 
 ## Building
