@@ -8,6 +8,9 @@
 		"start:mock-server": "node static-mock-server/server.js",
 		"start-all-sv": "concurrently \"npm run dev\" \"npm run start:mock-server\"",
 		"build": "vite build",
+		"build:federation": "vite build --config vite.federation.config.ts",
+		"start:federation": "vite --config vite.federation.config.ts",
+		"preview:federation": "vite preview --config vite.federation.config.ts",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -16,6 +19,8 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@module-federation/vite": "1.24.1",
+		"@types/node": "^24.0.0",
 		"@sveltejs/adapter-auto": "^8.0.0",
 		"@sveltejs/kit": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^7.2.0",
