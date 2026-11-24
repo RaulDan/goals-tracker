@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"start:mock-server": "node static-mock-server/server.js",
-		"start-all-sv": "concurrently \"npm run dev\" \"npm run start:mock-server\"",
+		"start-all-sv": "concurrently \"npm run start:federation\" \"npm run start:mock-server\"",
 		"build": "vite build",
 		"build:federation": "vite build --config vite.federation.config.ts",
 		"start:federation": "vite --config vite.federation.config.ts",
