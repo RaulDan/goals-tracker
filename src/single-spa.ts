@@ -16,11 +16,19 @@ export async function mount({ domElement }: Props): Promise<void> {
 	style.textContent = `:host { display: block; font-family: Inter, sans-serif; color: #111827; background: #eef2ff; } ${css}`;
 	shadow.append(style);
 	domElement.replaceChildren(host);
-	instance = mountSvelte(GoalsPage, { target: shadow });
+	try {
+		instance = mountSvelte(GoalsPage, { target: shadow });
+	} catch (error) {
+		host.remove();
+		throw error;
+	}
 }
 
 export async function unmount({ domElement }: Props): Promise<void> {
-	if (instance) await unmountSvelte(instance);
-	instance = undefined;
-	domElement.replaceChildren();
+	try {
+		if (instance) await unmountSvelte(instance);
+	} finally {
+		instance = undefined;
+		domElement.replaceChildren();
+	}
 }
