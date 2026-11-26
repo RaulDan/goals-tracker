@@ -11,6 +11,7 @@
 	let loadError = $state('');
 	let createError = $state('');
 	let createForm = $state<GoalDraft>({ ...emptyGoalForm });
+	let fetchVersion = 0;
 
 	const totalGoals = $derived(goals.length);
 	const averageProgress = $derived(
@@ -54,14 +55,17 @@
 	}
 
 	async function fetchGoals() {
+		console.log('dasdsa')
+		const version = ++fetchVersion;
 		isLoading = true;
 		loadError = '';
 		try {
-			goals = await request<Goal[]>('/goals');
+			const fetchedGoals = await request<Goal[]>('/goals');
+			if (version === fetchVersion) goals = fetchedGoals;
 		} catch (error) {
-			loadError = getErrorMessage(error);
+			if (version === fetchVersion) loadError = getErrorMessage(error);
 		} finally {
-			isLoading = false;
+			if (version === fetchVersion) isLoading = false;
 		}
 	}
 
@@ -103,7 +107,15 @@
 		}
 	}
 
-	onMount(fetchGoals);
+	onMount(() => {
+		const refreshGoals = () => { void fetchGoals(); };
+		window.addEventListener('goals:changed', refreshGoals);
+		void fetchGoals();
+		return () => {
+			window.removeEventListener('goals:changed', refreshGoals);
+			fetchVersion++;
+		};
+	});
 </script>
 
 <main class="page">
