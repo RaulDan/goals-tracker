@@ -62,11 +62,16 @@ It runs on [http://localhost:7001](http://localhost:7001), loads default data fr
 - `PUT /goals/:id`
 - `PATCH /goals/:id`
 
-### Run frontend + backend together
+### Run frontend, backend, and single-spa bundle together
 
 ```sh
-npm run start-all
+npm run start-all-sv
 ```
+
+This also builds and watches the single-spa bundle, served with CORS at
+`http://localhost:5000/single-spa/single-spa.js`. The standalone app and mock
+API remain on ports 5000 and 7001. The generated `static/single-spa` files
+may also be included in standalone production builds when present.
 
 ## Building
 
