@@ -2,6 +2,29 @@
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
+## Module Federation mode
+
+```sh
+npm ci
+npm run serve:federation
+```
+
+Start `npm run start:mock-server` separately for the API on 7001. Stop the
+standalone Vite server first: both modes use port 5000. The remote entry is
+`http://localhost:5000/remoteEntry.js`, container `goals_tracker`, exposing
+`./mount` to Angular host 4201 and React host 3001.
+
+`npm run build:federation` emits `dist/federation`; publish the entry and all
+chunks together with CORS allowing the host origins. The dedicated client-only
+Webpack/Svelte build reuses the existing page while retaining SvelteKit's
+standalone commands. Svelte's injected component CSS stays in each mount's
+Shadow DOM. The asynchronous disposer unmounts the instance and removes its DOM.
+
+Set `VITE_GOALS_API_URL` in the build process environment to change the API URL
+(default `http://localhost:7001`). For PowerShell:
+`$env:VITE_GOALS_API_URL = 'https://example.com'; npm run build:federation`.
+Federation configuration reads process environment, not Vite's `.env` loader.
+
 ## Creating a project
 
 If you're seeing this, you've probably already done this step. Congrats!
@@ -65,7 +88,7 @@ It runs on [http://localhost:7001](http://localhost:7001), loads default data fr
 ### Run frontend + backend together
 
 ```sh
-npm run start-all
+npm run start-all-sv
 ```
 
 ## Building
